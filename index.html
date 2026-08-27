@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Страница публичная по ссылке, но в поиске ей делать нечего. -->
+<meta name="robots" content="noindex, nofollow">
+<title>Доска Алёны · КРС</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Golos+Text:wght@400;500;600&display=swap">
+</head>
+<body>
+<style>
+  /* Светлая тема — палитра КРС. Тёмная — палитра «Свободного агента». Обе из 04_ДИЗАЙН/ПАЛИТРЫ.md. */
+  :root{
+    --bg:#F4F4F4; --card:#FFFFFF; --line:#ECECEC; --ink:#262725; --muted:#6B6B6B;
+    --accent:#C6E956; --accent-ink:#262725; --done:#A2ABB9;
+    --late-bg:#EFD1C1; --late-edge:#E27E48; --faint:#A7A7A7;
+    --world:'мир КРС';
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#000000; --card:rgba(255,255,255,.06); --line:rgba(255,255,255,.16); --ink:#FFFFFF;
+      --muted:rgba(255,255,255,.58); --accent:#C6E956; --accent-ink:#000000; --done:#696E76;
+      --late-bg:rgba(227,68,68,.14); --late-edge:#E34444; --faint:rgba(255,255,255,.35);
+      --world:'мир СА';
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#000000; --card:rgba(255,255,255,.06); --line:rgba(255,255,255,.16); --ink:#FFFFFF;
+    --muted:rgba(255,255,255,.58); --accent:#C6E956; --accent-ink:#000000; --done:#696E76;
+    --late-bg:rgba(227,68,68,.14); --late-edge:#E34444; --faint:rgba(255,255,255,.35);
+    --world:'мир СА';
+  }
+  *{box-sizing:border-box}
+  body{background:var(--bg); color:var(--ink); font-family:'Golos Text',system-ui,-apple-system,'Segoe UI',sans-serif;
+       font-size:16px; line-height:1.55; margin:0; padding:40px 20px 80px}
+  .wrap{max-width:760px; margin:0 auto; display:flex; flex-direction:column; gap:36px}
+  header{display:flex; flex-direction:column; gap:14px}
+  .eyebrow{font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted)}
+  h1{font-family:'Playfair Display',Georgia,serif; font-weight:700; font-size:clamp(30px,5vw,42px);
+     line-height:1.1; margin:0; text-wrap:balance}
+  .counters{display:flex; flex-wrap:wrap; gap:10px}
+  .counter{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 16px;
+           display:flex; flex-direction:column; gap:2px; min-width:120px}
+  .counter b{font-size:24px; font-variant-numeric:tabular-nums; line-height:1}
+  .counter span{font-size:12px; color:var(--muted)}
+  .counter.hot b{color:var(--late-edge)}
+  h2{font-family:'Playfair Display',Georgia,serif; font-weight:600; font-size:21px; margin:0 0 14px;
+     display:flex; align-items:baseline; gap:10px; flex-wrap:wrap}
+  h2 .note{font-family:'Golos Text',sans-serif; font-size:13px; font-weight:400; color:var(--muted)}
+  .stack{display:flex; flex-direction:column; gap:12px}
+  .task{background:var(--card); border:1px solid var(--line); border-left:3px solid var(--faint);
+        border-radius:14px; padding:16px 18px; display:flex; flex-direction:column; gap:8px}
+  .task.late{border-left-color:var(--late-edge); background:var(--late-bg)}
+  .task.now{border-left-color:var(--accent)}
+  .task h3{font-size:17px; font-weight:600; margin:0; line-height:1.3; text-wrap:balance}
+  .task p{margin:0; color:var(--muted); font-size:14.5px}
+  .stamp{font-size:12px; color:var(--muted); font-variant-numeric:tabular-nums;
+         letter-spacing:.02em; align-self:flex-start}
+  .stamp.late{color:var(--late-edge); font-weight:600}
+  .stamp.now{background:var(--accent); color:var(--accent-ink); font-weight:600;
+             padding:3px 9px; border-radius:999px}
+  .parts{margin:4px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:5px;
+         font-size:14px; color:var(--muted)}
+  .owed{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px 18px}
+  .owed ul{margin:8px 0 0; padding-left:18px; display:flex; flex-direction:column; gap:5px; font-size:14.5px}
+  .debt{display:flex; flex-direction:column; gap:8px}
+  .debt div{display:flex; gap:10px; font-size:14.5px; padding:9px 0; border-bottom:1px solid var(--line)}
+  .debt div:last-child{border-bottom:none}
+  .debt code{font-family:ui-monospace,Menlo,monospace; font-size:12.5px; color:var(--muted);
+             padding-top:2px; min-width:42px}
+  footer{color:var(--muted); font-size:13px; border-top:1px solid var(--line); padding-top:18px}
+  footer::before{content:var(--world); display:block; font-size:11px; letter-spacing:.14em;
+                 text-transform:uppercase; color:var(--faint); margin-bottom:6px}
+</style>
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Дизайн · КРС и Свободный агент</span>
+    <h1>Задачи Алёны</h1>
+    <div class="counters">
+      <div class="counter"><b>19</b><span>дней до релиза 15.09</span></div>
+      <div class="counter hot"><b>2</b><span>просрочено</span></div>
+      <div class="counter"><b>2</b><span>сегодня и завтра</span></div>
+      <div class="counter"><b>7</b><span>задач всего</span></div>
+    </div>
+  </header>
+
+  <section><h2>Сейчас <span class="note">сегодня и завтра</span></h2>
+     <div class="stack"><article class="task now">
+      <h3>Аватарки для соцсетей</h3>
+      <span class="stamp now">завтра · 28.08</span>
+      <p>Все аватарки в хайрезах, файлами на диск. Два комплекта — КРС и «Свободный агент». Площадки: Telegram, ВК, Дзен, Threads</p>
+      
+    </article><article class="task now">
+      <h3>Логотип СА отдельной ссылкой, по слоям</h3>
+      <span class="stamp now">завтра · 28.08</span>
+      <p>Игорь делает анимацию основного знака СА. Нужна ссылка на файл в Figma, слои не сведены и подписаны — из неё будет собираться анимация</p>
+      
+    </article></div></section>
+  <section><h2>Срок прошёл <span class="note">статус не отмечен — скажи, если сдано</span></h2>
+     <div class="stack"><article class="task late">
+      <h3>Промо СА: шесть кадров под анимацию</h3>
+      <span class="stamp late">срок был 25.08 · 2 дня назад</span>
+      <p>4:5 (1080×1350). Figma «Промо СА» со слоями, PNG ×2 по кадрам, исходники на диск в папку 08_Промо</p>
+      
+    </article><article class="task late">
+      <h3>Итерация 2 дизайн-системы — согласование</h3>
+      <span class="stamp late">срок был 25.08 · 2 дня назад</span>
+      <p>Шесть настоящих экранов. После неё токены дорого менять</p>
+      
+    </article></div></section>
+  <section><h2>Дальше по плану</h2>
+     <div class="stack"><article class="task ">
+      <h3>Баннеры — весь набор одним сроком</h3>
+      <span class="stamp">05.09, сб · через 9 дней</span>
+      <p>Полное ТЗ у тебя есть. Промо TG-канала вакансий, промо СА, «Эстетика русского футбола», канал Игоря. Волны объединены: один срок вместо двух</p>
+      
+    </article></div></section>
+  <section><h2>Без срока <span class="note">нужен график</span></h2>
+     <div class="stack"><article class="task ">
+      <h3>Хвост сдачи брендинга и макетов</h3>
+      <span class="stamp">срок не назначен</span>
+      <p>срок 04–05.08 снят, состав не закрыт — нужен новый график</p>
+      <ul class="parts"><li>Логотипы: структурированная выгрузка на диск — блокер №1</li><li>Шрифты отдельно: все начертания + woff2 + лицензия</li><li>Банк заглушек: 15–20 сюжетов</li><li>Диск: выгрузка по 7 папкам из спеки от 26.07</li><li>Figma: доступ, подписанные экраны, кнопки отдельными элементами</li><li>КРС, новые экраны (6): выбор роли · регистрация команды · главный без профиля · превью платной вакансии · «О компании» и «Материалы» · профиль в десктопе</li><li>КРС, правки: градиентная кнопка → чёрная; система кнопок</li><li>Переключатель КРС ↔ СА в верхнем меню</li><li>СА: дособрать мобилку (3–4 экрана); админка повторяет внутренний КРС</li></ul>
+    </article><article class="task ">
+      <h3>Гэпы, найденные при разборе макетов</h3>
+      <span class="stamp">срок не назначен</span>
+      <p>всплыли на сверке спек с бордами, в сдачу 04–05.08 не входили</p>
+      <ul class="parts"><li>Фасеты фильтрации: девяти групп нет в макетах — дорисовать</li><li>Скелетоны из размеров карточек</li><li>Правило блокировки логотипа: отступ 0,22 к высоте знака</li><li>Стоковые иконки free-icon-* → свободный набор MIT</li><li>Полупустой экран «на всякий случай» — разобрать</li></ul>
+    </article></div></section>
+
+  <section><h2>За Игорем <span class="note">без этого часть задач не двигается</span></h2>
+    <div class="owed"><ul><li>Финальный вектор знака СА</li><li>Тёмные фото-подложки из банка заглушек</li><li>Точные цифры для кадра 5</li></ul></div></section>
+
+  <section><h2>Дизайн-долг на доске <span class="note">карточки разработки, которые ждут дизайна</span></h2>
+    <div class="owed debt"><div><code>#75</code><span>Логотипы: структурированная выгрузка</span></div><div><code>#228</code><span>Знак как конструктор, а не восемь файлов</span></div><div><code>#227</code><span>Правило блокировки логотипа</span></div><div><code>#56</code><span>Плашки-рейтинги: семь штук из макетов</span></div><div><code>#223</code><span>Фасеты из спеки фильтрации отсутствуют в макетах</span></div><div><code>#225</code><span>Скелетоны из размеров карточек</span></div><div><code>#229</code><span>Отмечать экраны без прецедента в макетах</span></div><div><code>#119</code><span>Витрина на десктопе: мобильный макет по центру</span></div><div><code>#176</code><span>ИТЕРАЦИЯ 1 дизайн-системы — согласование</span></div><div><code>#177</code><span>ИТЕРАЦИЯ 2 дизайн-системы — согласование</span></div><div><code>#310</code><span>Аватарки соцсетей: КРС и СА, четыре площадки</span></div></div></section>
+
+  <footer>Собрано автоматически из реестра сроков проекта · 27.08.
+  Задачи и даты меняет Игорь — если срок нереальный, скажи в ветке дизайна, пересоберём.</footer>
+</div>
+</body>
+</html>
